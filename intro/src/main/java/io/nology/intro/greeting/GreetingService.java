@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import io.nology.intro.greeting.dtos.CreateNameDto;
-import jakarta.validation.Valid;
 
 @Service
 public class GreetingService {
