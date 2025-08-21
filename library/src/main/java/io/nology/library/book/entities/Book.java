@@ -2,27 +2,17 @@ package io.nology.library.book.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "books")
 public class Book {
-
-    public enum Genre {
-        HORROR,
-        FANTASY,
-        SCIENCE_FICTION,
-        ROMANCE,
-        NON_FICTION,
-        ADVENTURE,
-        DRAMA,
-        FICTION
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +24,8 @@ public class Book {
     @Column(nullable = false)
     private String title;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
 
     @Column

@@ -1,8 +1,5 @@
 package io.nology.library.book.dtos;
 
-
-
-import io.nology.library.book.entities.Book.Genre;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +13,8 @@ public class CreateBookDTO {
     private String title;
 
     @NotNull
-    private Genre genre;
+    @Min(1)
+    private Long genreId;
 
     @NotNull
     @Min(0)
@@ -30,12 +28,12 @@ public class CreateBookDTO {
         return title;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
     public Integer getYearPublished() {
         return yearPublished;
+    }
+
+    public Long getGenreId() {
+        return genreId;
     }
 
 }

@@ -1,6 +1,5 @@
 package io.nology.library.book.dtos;
 
-import io.nology.library.book.entities.Book.Genre;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
@@ -12,7 +11,8 @@ public class UpdateBookDTO {
     @Pattern(regexp = ".*\\S.*", message = "Title should not be blank")
     private String title;
 
-    private Genre genre;
+    @Min(1)
+    private Long genreId;
 
     @Min(0)
 
@@ -26,19 +26,13 @@ public class UpdateBookDTO {
         return title;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
     public Integer getYearPublished() {
         return yearPublished;
 
     }
 
-    @Override
-    public String toString() {
-        return "UpdateBookDTO [author=" + author + ", title=" + title + ", genre=" + genre + ", yearPublished="
-                + yearPublished + "]";
+    public Long getGenreId() {
+        return genreId;
     }
 
 }
