@@ -7,6 +7,7 @@ import io.nology.library.book.dtos.BookResponseDTO;
 import io.nology.library.book.dtos.CreateBookDTO;
 import io.nology.library.book.dtos.UpdateBookDTO;
 import io.nology.library.book.entities.Book;
+import io.nology.library.common.exceptions.BadRequestException;
 import io.nology.library.common.exceptions.NotFoundException;
 import jakarta.validation.Valid;
 
@@ -56,11 +57,12 @@ public class BookController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Book> updateById(@PathVariable Long id, @RequestBody @Valid UpdateBookDTO data)
-            throws NotFoundException {
+    public ResponseEntity<BookResponseDTO> updateById(@PathVariable Long id, @RequestBody @Valid UpdateBookDTO data)
+            throws NotFoundException, BadRequestException {
         Book updatedBook = this.bookService.updateById(id, data)
                 .orElseThrow(() -> new NotFoundException("Could not find book with id " + id));
-        return ResponseEntity.ok(updatedBook);
+        BookResponseDTO response = mapper.map(updatedBook, BookResponseDTO.class);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

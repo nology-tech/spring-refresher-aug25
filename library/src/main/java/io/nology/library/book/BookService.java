@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 import io.nology.library.book.dtos.CreateBookDTO;
 import io.nology.library.book.dtos.UpdateBookDTO;
 import io.nology.library.book.entities.Book;
+import io.nology.library.common.ValidationErrors;
+import io.nology.library.common.exceptions.BadRequestException;
+import io.nology.library.common.exceptions.NotFoundException;
 import io.nology.library.genre.GenreService;
 import io.nology.library.genre.entities.Genre;
+import jakarta.validation.Valid;
 
 @Service
 public class BookService {
@@ -38,11 +42,17 @@ public class BookService {
         // newBook.setTitle(data.getTitle().trim());
         // newBook.setGenre(data.getGenre());
         // newBook.setYearPublished(data.getYearPublished());
-        Optional<Genre> result = this.genreService.findById(data.getGenreId());
+        ValidationErrors errors = new ValidationErrors();
+        // Genre genre = this.findGenreOrThrow(data.getGenreId());
+        var result = this.genreService.findById(data.getGenreId());
         if (result.isEmpty()) {
-            throw new Exception("Invalid Genre");
+            errors.add("genre", "invalid id");
         }
+
         Book newBook = mapper.map(data, Book.class);
+        if (errors.hasErrors()) {
+            throw new BadRequestException("Validation Failed", errors);
+        }
         newBook.setGenre(result.get());
         return this.bookRepository.saveAndFlush(newBook);
     }
@@ -60,12 +70,17 @@ public class BookService {
         return true;
     }
 
-    public Optional<Book> updateById(Long id, UpdateBookDTO data) {
+    public Optional<Book> updateById(Long id, @Valid UpdateBookDTO data) throws BadRequestException {
         Optional<Book> result = this.findById(id);
         if (result.isEmpty()) {
             return result;
         }
+        ValidationErrors errors = new ValidationErrors();
         Book toUpdate = result.get();
+        var genreResult = this.genreService.findById(data.getGenreId());
+        if (genreResult.isEmpty()) {
+            errors.add("genre", "invalid id");
+        }
 
         // if (data.getAuthor() != null) {
         // toUpdate.setAuthor(data.getAuthor().trim());
@@ -82,9 +97,20 @@ public class BookService {
         // toUpdate.setYearPublished(data.getYearPublished());
         // }
         mapper.map(data, toUpdate);
+        if (errors.hasErrors()) {
+            throw new BadRequestException("validation failed", errors);
+        }
+        toUpdate.setGenre(genreResult.get());
         this.bookRepository.save(toUpdate);
         return Optional.of(toUpdate);
 
     }
+
+    // private Genre findGenreOrThrow(Long id) throws BadRequestException {
+    // return this.genreService.findById(id)
+    // .orElseThrow(() -> new BadRequestException("Could not find genre with id " +
+    // id));
+
+    // }
 
 }
