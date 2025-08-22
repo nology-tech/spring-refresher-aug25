@@ -1,5 +1,6 @@
 package io.nology.library.book.entities;
 
+import io.nology.library.genre.entities.Genre;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

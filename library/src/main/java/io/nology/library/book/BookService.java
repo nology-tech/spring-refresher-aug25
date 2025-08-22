@@ -9,15 +9,19 @@ import org.springframework.stereotype.Service;
 import io.nology.library.book.dtos.CreateBookDTO;
 import io.nology.library.book.dtos.UpdateBookDTO;
 import io.nology.library.book.entities.Book;
+import io.nology.library.genre.GenreService;
+import io.nology.library.genre.entities.Genre;
 
 @Service
 public class BookService {
     private final BookRepository bookRepository;
     private final ModelMapper mapper;
+    private final GenreService genreService;
 
-    public BookService(BookRepository bookRepository, ModelMapper mapper) {
+    public BookService(BookRepository bookRepository, ModelMapper mapper, GenreService genreService) {
         this.bookRepository = bookRepository;
         this.mapper = mapper;
+        this.genreService = genreService;
     }
 
     public List<Book> getAllBooks() {
@@ -28,13 +32,18 @@ public class BookService {
         return this.bookRepository.findById(id);
     }
 
-    public Book create(CreateBookDTO data) {
+    public Book create(CreateBookDTO data) throws Exception {
         // Book newBook = new Book();
         // newBook.setAuthor(data.getAuthor().trim());
         // newBook.setTitle(data.getTitle().trim());
         // newBook.setGenre(data.getGenre());
         // newBook.setYearPublished(data.getYearPublished());
+        Optional<Genre> result = this.genreService.findById(data.getGenreId());
+        if (result.isEmpty()) {
+            throw new Exception("Invalid Genre");
+        }
         Book newBook = mapper.map(data, Book.class);
+        newBook.setGenre(result.get());
         return this.bookRepository.saveAndFlush(newBook);
     }
 

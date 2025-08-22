@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import io.nology.library.book.BookRepository;
-import io.nology.library.book.GenreRepository;
 import io.nology.library.book.entities.Book;
-import io.nology.library.book.entities.Genre;
+import io.nology.library.genre.GenreRepository;
+import io.nology.library.genre.entities.Genre;
 
 @Component
 @Profile("dev")

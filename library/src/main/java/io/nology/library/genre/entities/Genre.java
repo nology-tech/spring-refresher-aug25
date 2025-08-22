@@ -1,4 +1,4 @@
-package io.nology.library.book.entities;
+package io.nology.library.genre.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +45,11 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre [name=" + name + "]";
     }
 
     // public List<Book> getBooks() {
