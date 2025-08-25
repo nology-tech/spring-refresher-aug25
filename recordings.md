@@ -6,3 +6,6 @@ Passcode: Q2E7GVm&
 
 [3. Delete, Update, ManyToOne relationship](https://opustalentsolutions.zoom.us/rec/share/cZ95MCR8f2BBVlRJb2H6xfXlpPQsUs67hugVDR6AkgA5Xq9zIWQSBHEdIE_6StbQ.Nf429M8gGWP_4imN)
 Passcode: 2^U^Sfv^
+
+[4. Errors, service validation, updated seeding](https://opustalentsolutions.zoom.us/rec/share/DvC3bl9AJU8zHHLXKqD5vxdNUgSDJfNjHkc6wPTqfnDz2s400zCRW2z-SWEWPc-f.I32Yld6lrhYmuw5R)
+Passcode: f1.afr@e
