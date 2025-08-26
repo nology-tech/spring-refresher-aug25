@@ -77,9 +77,14 @@ public class BookService {
         }
         ValidationErrors errors = new ValidationErrors();
         Book toUpdate = result.get();
-        var genreResult = this.genreService.findById(data.getGenreId());
-        if (genreResult.isEmpty()) {
-            errors.add("genre", "invalid id");
+        Long genreId = data.getGenreId();
+        if (genreId != null) {
+            var genreResult = this.genreService.findById(genreId);
+            if (genreResult.isEmpty()) {
+                errors.add("genre", "invalid id");
+            } else {
+                toUpdate.setGenre(genreResult.get());
+            }
         }
 
         // if (data.getAuthor() != null) {
@@ -100,7 +105,7 @@ public class BookService {
         if (errors.hasErrors()) {
             throw new BadRequestException("validation failed", errors);
         }
-        toUpdate.setGenre(genreResult.get());
+
         this.bookRepository.save(toUpdate);
         return Optional.of(toUpdate);
 
