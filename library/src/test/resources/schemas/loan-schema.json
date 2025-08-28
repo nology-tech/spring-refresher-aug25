@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "member": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phoneNumber": { "type": "string" }
+      },
+      "required": ["id", "firstName", "lastName", "email", "phoneNumber"]
+    },
+    "book": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "author": { "type": "string" },
+        "title": { "type": "string" },
+        "genre": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "integer" },
+            "name": { "type": "string" }
+          },
+          "required": ["id", "name"]
+        },
+        "yearPublished": { "type": "integer" }
+      },
+      "required": ["id", "author", "title", "genre", "yearPublished"]
+    },
+    "borrowedAt": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "returnedAt": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "active": {
+      "type": "boolean"
+    }
+  },
+  "required": ["id", "member", "book", "borrowedAt", "returnedAt", "active"]
+}

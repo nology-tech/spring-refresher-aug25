@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer" },
+    "title": { "type": "string" },
+    "author": { "type": "string" },
+    "genre": { "type": "string" },
+    "yearPublished": { "type": "integer" },
+    "rating": { "type": "integer" }
+  },
+  "required": ["id", "author", "title", "genre", "yearPublished", "rating"],
+  "additionalProperties": false
+}
